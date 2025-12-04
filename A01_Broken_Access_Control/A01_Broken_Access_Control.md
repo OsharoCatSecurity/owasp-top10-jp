@@ -27,7 +27,7 @@ flowchart TD
     AUTH -->|NO| DENY[アクセス拒否]
 
     subgraph BrokenAccess
-        APP -->|不十分な認可| LEAK[本来禁止のデータへアクセス]
+        APP -->|不十分な認可| LEAK[本来禁止されているデータへのアクセス]
     end
 ```
 
