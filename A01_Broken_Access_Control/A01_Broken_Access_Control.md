@@ -19,16 +19,18 @@ Broken Access Control では、この制御が正しく働かない。
 
 ## 2. 図解（Mermaid）
 
-```mermaid
+```
+<div class="mermaid">
 flowchart TD
-    U[ユーザー] -->|リクエスト| APP[Webアプリ]
-    APP -->|認可チェック| AUTH{権限は正しいか?}
-    AUTH -->|YES| OK[許可されたリソースへアクセス]
-    AUTH -->|NO| DENY[アクセス拒否]
+  U[ユーザー] -->|リクエスト| APP[Webアプリ]
+  APP -->|認可チェック| AUTH{権限は正しいか?}
+  AUTH -->|YES| OK[許可されたリソースへアクセス]
+  AUTH -->|NO| DENY[アクセス拒否]
 
-    subgraph BrokenAccess
-        APP -->|不十分な認可| LEAK[本来禁止されているデータへのアクセス]
-    end
+  subgraph BrokenAccess
+    APP -->|不十分な認可| LEAK[本来禁止されたデータや機能にアクセス]
+  end
+</div>
 ```
 
 ---
@@ -87,7 +89,8 @@ app.get("/user/:id", (req, res) => {
 });
 ```
 
-```javascript
+```
+javascript
 // ✔ 修正版：認可チェックをサーバー側で実施
 app.get("/user/:id", (req, res) => {
   if (req.user.id !== req.params.id) {
@@ -96,4 +99,7 @@ app.get("/user/:id", (req, res) => {
   const data = db.getUser(req.user.id);
   res.json(data);
 });
-```
+```<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true });
+</script>
