@@ -76,5 +76,24 @@ GET /user/1235 → 他人（本来禁止）
 - OWASP Cheat Sheet Series  
 - NIST SP 800-63 / Access Control Guidance
 
-
 ---
+### 🔧 脆弱なコード例（Node.js / Express）
+
+```javascript
+// ❌ IDチェックなし → 他人のデータが取得できてしまう
+app.get("/user/:id", (req, res) => {
+  const data = db.getUser(req.params.id);
+  res.json(data);
+});
+```
+
+```javascript
+// ✔ 修正版：認可チェックをサーバー側で実施
+app.get("/user/:id", (req, res) => {
+  if (req.user.id !== req.params.id) {
+    return res.status(403).send("Forbidden");
+  }
+  const data = db.getUser(req.user.id);
+  res.json(data);
+});
+```
