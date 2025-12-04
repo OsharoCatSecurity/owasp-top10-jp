@@ -19,7 +19,6 @@ Broken Access Control では、この制御が正しく働かない。
 
 ## 2. 図解（Mermaid）
 
-```
 <div class="mermaid">
 flowchart TD
   U[ユーザー] -->|リクエスト| APP[Webアプリ]
@@ -31,7 +30,6 @@ flowchart TD
     APP -->|不十分な認可| LEAK[本来禁止されたデータや機能にアクセス]
   end
 </div>
-```
 
 ---
 
