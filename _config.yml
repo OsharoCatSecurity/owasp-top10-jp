@@ -1,0 +1,10 @@
+theme: jekyll-theme-cayman
+title: "OWASP Top 10 日本語ガイド"
+description: "OsharoCatSecurityによるセキュリティ解説プロジェクト"
+markdown: kramdown
+
+# Mermaid 図を有効化
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      disable: true
