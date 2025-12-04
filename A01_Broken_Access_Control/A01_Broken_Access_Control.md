@@ -19,6 +19,7 @@ Broken Access Control では、この制御が正しく働かない。
 
 ## 2. 図解（Mermaid）
 
+```md
 <div class="mermaid">
 flowchart TD
   U[ユーザー] -->|リクエスト| APP[Webアプリ]
