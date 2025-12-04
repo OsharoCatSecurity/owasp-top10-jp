@@ -3,7 +3,7 @@
 A01 Broken Access Control（アクセス制御の不備）
 
 OWASP Top 10 で最も深刻とされる脆弱性。
-アクセス制御が壊れていると、本来アクセスできないデータや機能にユーザーが触れてしまう。
+アクセス制御が壊れていると 本来アクセスできないデータや機能にユーザーが触れてしまう。
 
 
 ---
@@ -22,20 +22,22 @@ URL を直接叩くと管理画面に入れてしまう
 クライアント側のボタン非表示だけで制御している
 
 
+
 ---
 
 2. 図解（Mermaid）
 
-アクセス制御が 正常な場合 と 壊れている場合 の流れを図にしたもの。
-
-<div class="mermaid">
 flowchart TD
   U[ユーザー] -->|リクエスト| APP[Webアプリ]
   APP -->|認可チェック| AUTH{権限は正しいか?}
   AUTH -->|YES| OK[許可されたリソースへアクセス]
-  AUTH -->|NO| DENY[アクセス拒否]subgraph BrokenAccess APP -->|不十分な認可| LEAK[本来禁止されたデータや機能にアクセス] end
+  AUTH -->|NO| DENY[アクセス拒否]
 
-</div>
+  subgraph BrokenAccess
+    APP -->|不十分な認可| LEAK[本来禁止されたデータや機能にアクセス]
+  end
+
+
 ---
 
 3. よくある脆弱性のパターン
@@ -44,16 +46,10 @@ flowchart TD
 
 /admin へ直接アクセスすると誰でも入れる
 
-
----
-
 ● IDOR（Insecure Direct Object Reference）
 
-GET /user/1234 → 自分  
+GET /user/1234 → 自分
 GET /user/1235 → 他人（本来禁止）
-
-
----
 
 ● クライアント側のみで制御
 
@@ -62,7 +58,7 @@ JavaScript でボタン非表示
 hidden パラメータで権限判定
 
 
-→ どちらも容易に改ざんされ、突破される
+→ どちらも容易に改ざんされ突破される
 
 
 ---
@@ -73,7 +69,7 @@ hidden パラメータで権限判定
 
 認可をすり抜けて管理 API を叩く
 
-直接 URL からデータを引き抜く
+直接 URL からデータを抜く
 
 
 
@@ -81,33 +77,21 @@ hidden パラメータで権限判定
 
 5. 防止策（実務向け）
 
-サーバー側で必ず認可チェック（認証とは別）
+サーバー側で必ず認可チェック
 
-ID を推測できない値にする（UUID など）
+ID を推測できない値にする（UUIDなど）
 
-機能ごとに RBAC / ABAC を設計
+RBAC / ABAC で権限設計
 
-クライアント側のみでの制御は絶対に NG
+クライアント側のみの制御は禁止
 
-ログ・アラートで不正アクセスを検知
-
-
-
----
-
-6. 参考資料
-
-OWASP Top 10 (2021)
-
-OWASP Cheat Sheet Series
-
-NIST SP 800-63 / Access Control Guidance
+ログやアラートで検知
 
 
 
 ---
 
-7. 脆弱なコード例と修正版（Node.js / Express）
+6. 脆弱なコード例（Node.js / Express）
 
 ❌ 悪い例：ID チェックなし
 
@@ -119,7 +103,7 @@ app.get("/user/:id", (req, res) => {
 
 ✔ 良い例：サーバー側で認可チェック
 
-// ✔ 修正版：認可チェックをサーバー側で実施
+// ✔ 認可チェックをサーバー側で実施
 app.get("/user/:id", (req, res) => {
   if (req.user.id !== req.params.id) {
     return res.status(403).send("Forbidden");
@@ -127,12 +111,3 @@ app.get("/user/:id", (req, res) => {
   const data = db.getUser(req.user.id);
   res.json(data);
 });
-
-
----
-
-<!-- Mermaid 読み込み用スクリプト（GitHub Pages 用） --><script type="module">
-  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({ startOnLoad: true });
-</script>
----
