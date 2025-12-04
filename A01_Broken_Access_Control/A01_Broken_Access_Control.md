@@ -22,15 +22,14 @@ Broken Access Control では、この制御が正しく働かない。
 
 ```mermaid
 flowchart TD
-  U[ユーザー] -->|リクエスト| APP[Webアプリ]
-  APP -->|認可チェック| AUTH{権限は正しいか?}
-  AUTH -->|YES| OK[許可されたリソースへアクセス]
-  AUTH -->|NO| DENY[アクセス拒否]
+  U[ユーザー] --> APP[Webアプリ]
+  APP --> AUTH{権限チェック}
+  AUTH --> OK[許可されたリソース]
+  AUTH --> DENY[アクセス拒否]
 
-  subgraph BrokenAccess
-    APP -->|不十分な認可| LEAK[本来禁止されたデータや機能にアクセス]
-  end
-
+  %% 壊れている場合：認可をすり抜けてしまうイメージ
+  APP --> LEAK[不十分な認可 → 本来禁止されたデータにアクセス]
+end
 
 ---
 
