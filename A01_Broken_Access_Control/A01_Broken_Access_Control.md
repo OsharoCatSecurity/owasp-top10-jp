@@ -112,3 +112,8 @@ app.get("/user/:id", (req, res) => {
   const data = db.getUser(req.user.id);
   res.json(data);
 });
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true });
+</script>
