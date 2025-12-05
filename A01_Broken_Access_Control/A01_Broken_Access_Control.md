@@ -20,10 +20,13 @@ Broken Access Control では、この制御が正しく働かない。
 
 ## 2. 図解（Mermaid）
 
-アクセス制御が「正しい場合」と「壊れている場合」の流れを簡単に図にしたもの。
-
-![アクセス制御のフロー図](./diagram_access_control.svg)
-
+```mermaid
+flowchart TD
+  U[ユーザー] -->|リクエスト| APP[Webアプリ]
+  APP -->|認可チェック| AUTH{権限は正しいか?}
+  AUTH -->|OK| OK[許可されたリソースへアクセス]
+  AUTH -->|NG| DENY[アクセス拒否]
+  APP -->|認可抜け| LEAK[本来禁止されたデータや機能にアクセス]
 ---
 
 ## 3. よくある脆弱性のパターン
