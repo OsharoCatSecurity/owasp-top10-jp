@@ -22,7 +22,7 @@ Broken Access Control では、この制御が正しく働かない。
 
 アクセス制御が「正しい場合」と「壊れている場合」の流れを簡単に図にしたもの。
 
-![アクセス制御のフロー図](diagram_access_control.svg)
+![アクセス制御のフロー図](./diagram_access_control.svg)
 
 ---
 
