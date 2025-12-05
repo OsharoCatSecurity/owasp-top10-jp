@@ -19,7 +19,6 @@ Broken Access Control では、この制御が正しく働かない。
 ---
 
 ## 2. 図解（Mermaid）
-
 ```mermaid
 flowchart TD
   U[ユーザー] -->|リクエスト| APP[Webアプリ]
@@ -27,6 +26,7 @@ flowchart TD
   AUTH -->|OK| OK[許可されたリソースへアクセス]
   AUTH -->|NG| DENY[アクセス拒否]
   APP -->|認可抜け| LEAK[本来禁止されたデータや機能にアクセス]
+```
 ---
 
 ## 3. よくある脆弱性のパターン
