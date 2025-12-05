@@ -115,5 +115,11 @@ app.get("/user/:id", (req, res) => {
 
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({ startOnLoad: true });
+
+  mermaid.initialize({ startOnLoad: false });
+
+  // ```mermaid のコードブロック（code.language-mermaid）を全部図にする
+  await mermaid.run({
+    querySelector: "pre > code.language-mermaid",
+  });
 </script>
