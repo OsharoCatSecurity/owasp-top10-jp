@@ -31,13 +31,32 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ▼ ここで Node.js を入れて Mermaid から SVG を生成
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Mermaid diagrams
+        run: |
+          # .mmd ファイルを全部探して .svg に変換
+          for file in $(find . -name "*.mmd"); do
+            echo "Generating diagram for $file"
+            npx -y @mermaid-js/mermaid-cli@10.9.0 \
+              -i "$file" \
+              -o "${file%.mmd}.svg"
+          done
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
           path: '.'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
