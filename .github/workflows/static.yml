@@ -25,10 +25,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --------------------------------------------
-      # Mermaid CLI インストール
-      # （--no-sandbox 用の設定も追加済み）
-      # --------------------------------------------
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -37,14 +33,21 @@ jobs:
       - name: Install Mermaid CLI
         run: npm install -g @mermaid-js/mermaid-cli@10.9.0
 
-      # --------------------------------------------
-      # .mmd → .svg 自動変換（--no-sandbox付き）
-      # --------------------------------------------
+      # puppeteer の sandbox 回避設定を作成
+      - name: Create puppeteer config
+        run: |
+          cat << 'EOF' > puppeteer.json
+          {
+            "args": ["--no-sandbox", "--disable-setuid-sandbox"]
+          }
+          EOF
+
+      # mmdc で .mmd → .svg 自動生成
       - name: Generate Mermaid diagrams
         run: |
           for file in $(find . -name "*.mmd"); do
             echo "Generating diagram for $file"
-            mmdc -i "$file" -o "${file%.mmd}.svg" --no-sandbox
+            mmdc -i "$file" -o "${file%.mmd}.svg" -p puppeteer.json
           done
 
       - name: Setup Pages
